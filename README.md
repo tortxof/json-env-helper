@@ -8,6 +8,14 @@ writing them to disk.
 
 ## Installation
 
+### Mise
+
+```bash
+mise use github:tortxof/json-env-helper
+```
+
+### Go
+
 ```bash
 go install github.com/tortxof/json-env-helper@latest
 ```
