@@ -21,5 +21,8 @@ func runExec(binary, cmd string, cmdArgs []string) {
 		tty.Close()
 	}
 
-	syscall.Exec(binary, append([]string{cmd}, cmdArgs...), os.Environ())
+	if err := syscall.Exec(binary, append([]string{cmd}, cmdArgs...), os.Environ()); err != nil {
+		fmt.Fprintf(os.Stderr, "error: %v\n", err)
+		os.Exit(1)
+	}
 }
