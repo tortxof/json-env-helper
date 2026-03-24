@@ -8,7 +8,6 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
-	"syscall"
 )
 
 var validKey = regexp.MustCompile(`^[A-Za-z_][A-Za-z0-9_]*$`)
@@ -55,17 +54,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		tty, err := os.Open("/dev/tty")
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "warning: could not open /dev/tty: %v\n", err)
-		} else {
-			if err := syscall.Dup2(int(tty.Fd()), int(os.Stdin.Fd())); err != nil {
-				fmt.Fprintf(os.Stderr, "warning: could not reopen stdin: %v\n", err)
-			}
-			tty.Close()
-		}
-
-		syscall.Exec(binary, append([]string{cmd}, cmdArgs...), os.Environ())
+		runExec(binary, cmd, cmdArgs)
 		return
 	}
 
