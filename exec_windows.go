@@ -10,6 +10,7 @@ import (
 
 func runExec(binary, cmd string, cmdArgs []string) {
 	c := exec.Command(binary, cmdArgs...)
+	c.Args[0] = cmd
 	c.Env = os.Environ()
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
